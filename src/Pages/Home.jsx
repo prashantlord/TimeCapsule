@@ -1,0 +1,49 @@
+import { Cloudy } from "lucide-react";
+import React from "react";
+import { useNavigate } from "react-router";
+import PublicCapsule from "./PublicCapsule";
+
+export default function Home() {
+  const navigate = useNavigate();
+
+  const personalCapsule = (e) => {
+    e.preventDefault();
+    navigate("/create");
+  };
+
+  const publicCapsule = (e) => {
+    e.preventDefault();
+    navigate("/publiccapsule");
+  };
+  return (
+    <>
+      <section className="mx-auto h-dvh">
+        <div className="flex items-center flex-col gap-5 px-5">
+          <Cloudy className="bg-gray-200 w-20 h-20 p-5 rounded-full " />
+          <h1 className="text-3xl font-bold text-center">
+            Send A Message To Your Future
+          </h1>
+          <p className="text-center text-gray-700 text-sm">
+            Create time capsules with personal messages, photos, and goals that
+            will be delivered to you in the future .
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={personalCapsule}
+              className="border-2 border-gray-700 py-2 w-30 md:w-60  rounded-full bg-gray-700 text-white cursor-pointer hover:translate-y-[-0.2em] hover:scale-102 transition-transform duration-200 ease-in"
+            >
+              Create <span className="hidden md:inline">Personal Capsule</span>
+            </button>
+            <button
+              onClick={publicCapsule}
+              className="border-2 border-gray-700 py-2 w-30  md:w-60  rounded-full cursor-pointer hover:translate-y-[-0.2rem] hover:scale-102 transition-transform duration-200 ease-in"
+            >
+              Explore <span className="hidden md:inline">Public Capsules</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section className="fixed  top-0  md:hidden bg-black w-[100%] h-50 slideAnimation "></section>
+    </>
+  );
+}
