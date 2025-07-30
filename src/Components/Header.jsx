@@ -1,4 +1,4 @@
-import { Hourglass, Menu } from "lucide-react";
+import { Hourglass, LogOut, Menu, Settings, User } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAccount from "../context/useAccount";
@@ -40,6 +40,9 @@ export default function Header() {
     setNav((prev) => !prev);
   };
 
+  document.addEventListener("mousedown", () => {
+    setLogout(false);
+  });
   return (
     <>
       <div className="mx-auto flex items-center justify-between w-135 sm:w-200 md:w-250 xl:w-400 ">
@@ -84,21 +87,33 @@ export default function Header() {
           <Menu />
         </button>
       </div>
+
       <div
-        className={`fixed right-0 top-16 bg-gray-100 w-30 h-10 flex px-5 justify-end ${
-          logout ? "block" : "hidden"
-        }`}
+        className={`fixed flex flex-col gap-3 w-35 bg-gray-200 p-5 top-18 right-0 xl:w-50 text-sm transition-all duration-500 ${
+          logout
+            ? "opacity-100 translate-y-0"
+            : "opacity-0  translate-y-[-0.5rem]"
+        } `}
       >
+        <button className="flex items-center gap-1" disabled>
+          <User />
+          Account
+        </button>
+        <button className="flex items-center gap-1" disabled>
+          <Settings /> Settings
+        </button>
         <button
-          className="cursor-pointer"
+          className="cursor-pointer flex gap-1 items-center"
           onClick={() => {
             setLoggedOut();
             setLogout(false);
           }}
         >
-          Logout
+          <LogOut /> Logout
         </button>
       </div>
+
+      {/*  */}
       <div
         className={`w-dvw h-dvh fixed z-50 top-0 left-0 transition-all duration-300 ease-in flex items-center
     ${
@@ -138,7 +153,7 @@ export default function Header() {
                 ? "opacity-100 translate-y-0 delay-800"
                 : "opacity-0 translate-y-5 delay-0"
             }`}
-            to="/mycapsules"
+            to="/mycapsule"
             onClick={handleHamburger}
           >
             {" "}
