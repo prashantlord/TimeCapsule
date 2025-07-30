@@ -17,7 +17,7 @@ export default function Home() {
 
   const userData = [
     {
-      name: "Prashant Stha",
+      name: "Anonymous",
       title: "Future World",
       info: "I dont know what is going to happen in the future but I know one thing that is the world will end in 2026",
       about: ["future", "world"],
@@ -25,7 +25,7 @@ export default function Home() {
       personImg: "/person2.png",
     },
     {
-      name: "Ranjan",
+      name: "Anonymous",
       title: "Future life",
       info: "I really want to have more than 50 children and they grow up to be a football star, cricket star and so on",
       about: ["future", "sports"],
@@ -33,7 +33,7 @@ export default function Home() {
       personImg: "/person1.png",
     },
     {
-      name: "Dibas",
+      name: "Anonymous",
       title: "Currency Life",
       info: "I want to leave what I am doing right now and get the hell out of this country and start a new life with a.. ",
       about: ["future", "world"],
