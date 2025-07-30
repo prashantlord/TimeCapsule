@@ -1,8 +1,8 @@
 import {
   Cloudy,
+  Hourglass,
   Lock,
   LockOpen,
-  MoveLeftIcon,
   MoveRight,
   SquarePen,
 } from "lucide-react";
@@ -12,7 +12,7 @@ import PublicCard from "../Components/PublicCard";
 import { Link } from "react-router";
 export default function Home() {
   const navigate = useNavigate();
-  const [bar, setBar] = useState(false);
+
   const [formPage, setFormPage] = useState("public");
 
   const userData = [
@@ -74,7 +74,7 @@ export default function Home() {
     <>
       <section className="mx-auto h-fit md:h-75  mt-12  ">
         <div className="flex items-center flex-col gap-5 px-5">
-          <Cloudy className="bg-gray-200 w-20 h-20 p-5 rounded-full " />
+          <Hourglass className="spinAnime bg-gray-200 w-20 h-20 p-5 rounded-full  " />
           <h1 className="text-3xl font-bold text-center">
             Send A Message To Your Future
           </h1>
@@ -85,13 +85,13 @@ export default function Home() {
           <div className="flex gap-3">
             <button
               onClick={personalCapsule}
-              className="border-2 border-gray-700 py-2 w-30 md:w-60  rounded-full bg-gray-700 text-white cursor-pointer hover:translate-y-[-0.2em] hover:scale-102 transition-transform duration-200 ease-in"
+              className="border-2 border-gray-700 py-2 w-30 md:w-60  rounded-full bg-gray-700 text-white cursor-pointer hover:translate-y-[-0.2rem] transition-transform duration-200 ease-in"
             >
               Create <span className="hidden md:inline">Personal Capsule</span>
             </button>
             <button
               onClick={publicCapsule}
-              className="border-2 border-gray-700 py-2 w-30  md:w-60  rounded-full cursor-pointer hover:translate-y-[-0.2rem] hover:scale-102 transition-transform duration-200 ease-in"
+              className="border-2 border-gray-700 py-2 w-30  md:w-60  rounded-full cursor-pointer hover:translate-y-[-0.2rem] transition-transform duration-200 ease-in"
             >
               Explore <span className="hidden md:inline">Public Capsules</span>
             </button>

@@ -56,7 +56,7 @@ export default function Header() {
             <Link
               key={key}
               to={item.path}
-              className=" hover:translate-y-[-0.2rem] hover:scale-105 transition-transform duration-200 ease-in"
+              className="hover:translate-y-[-0.2rem] transition-all duration-200 ease-in"
             >
               {item.name}
             </Link>
