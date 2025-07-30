@@ -17,11 +17,9 @@ export default function Login() {
     e.preventDefault();
     account.map((item) => {
       if (item.id === email && item.password === password) {
-        setAccountErr(false);
         setStatus(email);
         navigate("/");
-      } else {
-        return;
+        setAccountErr(false);
       }
       setAccountErr(true);
     });
@@ -96,6 +94,13 @@ export default function Login() {
           </form>
         </div>
       </section>
+      <div
+        className={`fixed top-20 right-0 bg-red-500 text-white p-3 w-55 rounded-l-xl  ${
+          accountErr ? "slideAnm" : "hidden"
+        }`}
+      >
+        Check your Email or Password
+      </div>
     </>
   );
 }

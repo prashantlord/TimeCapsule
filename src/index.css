@@ -4,3 +4,16 @@
   list-style: none;
   box-sizing: border-box;
 }
+
+@utility slideAnm {
+  animation: slide 1s ease-in;
+}
+
+@keyframes slide {
+  from {
+    right: -10rem;
+  }
+  to {
+    right: 0;
+  }
+}
