@@ -19,7 +19,8 @@ export default function Footer() {
           </Link>
           <p className="text-[0.8rem] sm:text-sm">
             Send message to your future self and share your thoughts with the
-            world
+            world <br />
+            (None of the links below works)
           </p>
         </div>
         <div className="flex gap-30">

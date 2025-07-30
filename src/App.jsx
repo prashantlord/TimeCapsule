@@ -77,10 +77,10 @@ function App() {
         setLoggedOut,
       }}
     >
-      <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-3">
+      <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-4">
         <Header />
       </header>
-      <main className="w-full  flex justify-center flex-col  ">
+      <main className="w-full  flex justify-center flex-col   ">
         <Outlet />
       </main>
       <footer className="bg-white border-t-1 flex flex-col items-center border-b-1 border-gray-300 px-3 py-3">

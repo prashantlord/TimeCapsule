@@ -10,7 +10,7 @@ export default function PublicCard({
 }) {
   return (
     <>
-      <div className="min-w-80  snap-start overflow-hidden h-fit md:w-100 rounded-xl  border-1 border-gray-300 hover:translate-y-[-0.5rem] transition-transform duration-300  cursor-auto">
+      <div className="min-w-80  snap-start overflow-hidden h-fit md:w-100 xl:w-110 rounded-xl  border-1 border-gray-300 hover:translate-y-[-0.5rem] transition-transform duration-300  cursor-auto">
         <img src={coverImg} alt={title} className="w-full" />
 
         <div className=" p-3 bg-white flex flex-col gap-3 ">
