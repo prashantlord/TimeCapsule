@@ -1,8 +1,10 @@
 import { Hourglass, Menu } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
+import useAccount from "../context/useAccount";
 
 export default function Header() {
+  const { account, setStatus, loggedIn, setLoggedOut } = useAccount();
   const pages = [
     {
       name: "Home",
@@ -26,14 +28,13 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [logout, setLogout] = useState(false);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/login");
+    location.pathname != "/login" ? navigate("/login") : navigate("/register");
   };
 
-  const handleRegister = (e) => {
-    navigate("/register");
-  };
   return (
     <>
       <div className="mx-auto flex items-center justify-between w-135 sm:w-200 md:w-250 xl:w-400 ">
@@ -53,25 +54,41 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          {location.pathname === "/login" ? (
+
+          {loggedIn != "" ? (
             <button
-              className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-500 transition-colors duration-300 "
-              onClick={handleRegister}
+              className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-800 transition-colors duration-300 "
+              onClick={() => setLogout((prev) => !prev)}
             >
-              Register
+              {loggedIn[0].toUpperCase()}
             </button>
           ) : (
             <button
-              className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-500 transition-colors duration-300 "
               onClick={handleLogin}
+              className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-800 transition-colors duration-300 "
             >
-              Login
+              {location.pathname != "/login" ? "Login" : "Register"}{" "}
             </button>
           )}
         </nav>
         <div className="block md:hidden">
           <Menu />
         </div>
+      </div>
+      <div
+        className={`fixed right-0 top-16 bg-gray-100 w-30 h-10 flex px-5 justify-end ${
+          logout ? "block" : "hidden"
+        }`}
+      >
+        <button
+          className="cursor-pointer"
+          onClick={() => {
+            setLoggedOut();
+            setLogout(false);
+          }}
+        >
+          Logout
+        </button>
       </div>
     </>
   );

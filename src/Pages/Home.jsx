@@ -1,11 +1,11 @@
 import { Cloudy } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import PublicCapsule from "./PublicCapsule";
 
 export default function Home() {
   const navigate = useNavigate();
-
+  const [bar, setBar] = useState(false);
   const personalCapsule = (e) => {
     e.preventDefault();
     navigate("/create");
@@ -15,6 +15,7 @@ export default function Home() {
     e.preventDefault();
     navigate("/publiccapsule");
   };
+
   return (
     <>
       <section className="mx-auto h-dvh">
@@ -43,7 +44,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="fixed  top-0  md:hidden bg-black w-[100%] h-50 slideAnimation "></section>
+    
     </>
   );
 }

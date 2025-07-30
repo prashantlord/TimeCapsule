@@ -4,15 +4,3 @@
   list-style: none;
   box-sizing: border-box;
 }
-
-@utility slideAnimation {
-  animation: slide 1s;
-}
-@keyframes slide {
-  from {
-    top: -50rem;
-  }
-  to {
-    top: 0rem;
-  }
-}
