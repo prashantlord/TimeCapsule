@@ -18,7 +18,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(
     JSON.parse(localStorage.getItem("accountId")) !== ""
       ? JSON.parse(localStorage.getItem("accountId"))
-      : " "
+      : null
   );
   const setId = (id, pass) => {
     let temp = [...account];
@@ -48,7 +48,7 @@ function App() {
     temp.map((item) => {
       item.id === loggedIn ? (item.status = false) : null;
     });
-    setLoggedIn(" ");
+    setLoggedIn(null);
     setAccount([...temp]);
   };
 
