@@ -52,9 +52,7 @@ function App() {
     setAccount([...temp]);
   };
 
-  useEffect(() => {
-    console.log(account, setLoggedIn);
-  }, [account]);
+  useEffect(() => {}, [account]);
 
   useEffect(() => {
     if (account == []) {

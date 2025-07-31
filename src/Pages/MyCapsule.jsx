@@ -1,7 +1,3 @@
-import React from 'react'
-
 export default function MyCapsule() {
-  return (
-    <div>MyCapsule</div>
-  )
+  return <div>MYCapsule</div>;
 }
