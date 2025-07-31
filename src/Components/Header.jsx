@@ -178,11 +178,10 @@ export default function Header() {
                   ? "opacity-100 translate-y-0 delay-1200"
                   : "opacity-0 translate-y-5 delay-0"
               }`}
-              to="/login"
+              to={location.pathname === "/login" ? "/register" : "/login"}
               onClick={handleHamburger}
             >
-              {" "}
-              Login
+              {location.pathname === "/login" ? "Register" : "Login"}
             </Link>
           ) : (
             <button

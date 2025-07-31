@@ -1,19 +1,77 @@
-import { FilePlus2, Tablets } from "lucide-react";
-import React, { useState } from "react";
-import CardOne from "../Components/Capsule/CardOne";
-import { data } from "react-router";
+import { FilePlus2 } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import db from "../lib/database";
+import { data, useNavigate } from "react-router";
+import useAccount from "../context/useAccount";
 
 export default function Create() {
+  const { loggedIn } = useAccount();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [publish, setPublish] = useState("");
-  const [opening, setOpening] = useState("");
-  const [goals, setGoals] = useState([]);
+  const [openingDate, setOpeningDate] = useState("");
+  const [openingTime, setOpeningTime] = useState("");
 
-  const [capsule, setCapsule] = useState("private");
+  const [date, setDate] = useState("");
+  const [goalOne, setGoalOne] = useState(false);
+  const [goalTwo, setGoalTwo] = useState(false);
 
-  const handleCreate = () => {};
+  const [capsule, setCapsule] = useState("public");
+
+  const navigate = useNavigate();
+  const [nav, setNav] = useState(false);
+  const handleCreate = (e) => {
+    e.preventDefault();
+    const dt = new Date(`${openingDate}T${openingTime}`);
+    setDate(dt.toISOString());
+    setPublish(new Date().toISOString());
+    if (loggedIn) {
+      console.log(loggedIn, title, description, publish, data);
+      if (title === "" || description === "" || publish === "" || date === "") {
+        return;
+      } else {
+        if (capsule === "public") {
+          init();
+        } else {
+          return;
+        }
+      }
+    } else {
+      setNav(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!nav) return;
+
+    const time = setTimeout(() => {
+      setNav(false);
+    }, 8000);
+
+    return () => clearTimeout(time);
+  }, [nav]);
+
   const handleDraft = () => {};
+
+  const init = async () => {
+    try {
+      const payload = {
+        name: loggedIn.split("@")[0],
+        title: title,
+        description: description,
+        published: publish,
+        opening: date,
+      };
+
+      const res = await db.public.create(payload);
+      setTitle("");
+      setDescription("");
+      navigate("/publiccapsule");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -117,9 +175,8 @@ export default function Create() {
                   type="date"
                   name="title"
                   className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
-                  value={data}
                   onChange={(e) => {
-                    setPublish(e.target.value);
+                    setOpeningDate(e.target.value);
                   }}
                 />
               </div>
@@ -134,6 +191,9 @@ export default function Create() {
                   type="time"
                   name="title"
                   className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+                  onChange={(e) => {
+                    setOpeningTime(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -145,29 +205,48 @@ export default function Create() {
                 Goals & Task (Optional)
               </label>
               <div className="flex gap-5">
-                <input type="checkbox" name="task1" id="task1" />
+                <input
+                  type="checkbox"
+                  name="task1"
+                  id="task1"
+                  onChange={() => {
+                    setGoalOne((prev) => !prev);
+                  }}
+                />
                 <input
                   type="text"
                   placeholder="Learning new skills"
                   className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+                  disabled={goalOne === false}
+                  onChange={(e) => {
+                    setGoalOne(e.target.value);
+                  }}
                 />
               </div>
               <div className="flex gap-5">
-                <input type="checkbox" name="task1" id="task1" />
+                <input
+                  type="checkbox"
+                  name="task1"
+                  id="task1"
+                  onChange={() => {
+                    setGoalTwo((prev) => !prev);
+                  }}
+                />
                 <input
                   type="text"
                   placeholder="Spending more time with Family"
                   className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+                  disabled={goalTwo === false}
+                  onChange={(e) => {
+                    setGoalTwo(e.target.value);
+                  }}
                 />
               </div>
             </div>
             <div className="flex flex-col gap-3 md:flex-row">
               <button
-                className="bg-gray-900 text-white py-3 rounded-xl w-full curosr-pointer hover:bg-gray-800  transition-colors duration-300"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCreate();
-                }}
+                className="bg-gray-900 text-white py-3 rounded-xl w-full curosr-pointer cursor-pointer hover:bg-gray-800  transition-colors duration-300"
+                onClick={handleCreate}
               >
                 Create {capsule === "public" ? "Public" : "Private"} Capsule
               </button>
@@ -184,6 +263,13 @@ export default function Create() {
           </form>
         </div>
       </section>
+      <div
+        className={`rounded-l-xl fixed top-20 bg-red-500 px-5 py-2 right-0 text-white transition-all duration-300 ease-in ${
+          nav ? "right-0" : "right-[-50rem]"
+        }`}
+      >
+        Login or Register to Create
+      </div>
     </>
   );
 }

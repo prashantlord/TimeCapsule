@@ -7,6 +7,8 @@ export const userAccount = createContext({
   setStatus: () => {},
   setLoggedIn: () => {},
   setLoggedOut: () => {},
+
+  
 });
 
 export default function useAccount() {

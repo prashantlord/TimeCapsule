@@ -113,7 +113,7 @@ export default function Register() {
                 Already have an Account?
                 <Link to="/login" className="font-semibold text-gray-800">
                   {" "}
-                  Sign in
+                  Login
                 </Link>
               </p>
             </div>

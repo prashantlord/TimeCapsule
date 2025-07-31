@@ -80,14 +80,14 @@ export default function Login() {
               className="bg-gray-700 rounded-md py-2 px-3  text-white mx-auto w-80 cursor-pointer hover:bg-gray-800 transition-colors duration-300"
               onClick={handleSubmit}
             >
-              Sign In
+              Login
             </button>
             <div className=" gap-2 mx-auto w-80 text-center ">
               <p className="text-gray-700 select-none">
                 Don't have an account ?
                 <Link to="/register" className="font-semibold text-gray-800">
                   {" "}
-                  Register{" "}
+                  Register
                 </Link>
               </p>
             </div>
