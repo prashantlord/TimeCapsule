@@ -4,7 +4,8 @@ import { UserProvider } from "./context/useAccount";
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import { account } from "./lib/appwrite";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
+import db from "./lib/database";
 function App() {
   const navigate = useNavigate();
   const [userAcc, setUserAcc] = useState({});
@@ -16,7 +17,7 @@ function App() {
       setLoginStatus(true);
       return true;
     } catch (error) {
-      console.error("FUCK while Logging In (APP)");
+      console.error("ERROR while Logging In (APP)");
       return false;
     }
   };
@@ -26,7 +27,7 @@ function App() {
       setLoginStatus(false);
       navigate("/login");
     } catch (error) {
-      console.error("FUCKING ERROR WHILE LOGGING OUT (APP)");
+      console.error("ERROR ERROR WHILE LOGGING OUT (APP)");
     }
   };
 
@@ -38,7 +39,7 @@ function App() {
       setUserAcc({ id: res.$id, name: res.name });
       return res.status;
     } catch (error) {
-      console.log("fuck While Getting USEr LOGIN info (HEADER)");
+      console.error("ERROR While Getting USEr LOGIN info (HEADER)");
       return false;
     }
   };
@@ -54,10 +55,64 @@ function App() {
       // SEND EMAIL TO THE USER {Future PLAN}
       //  await account.createVerification("https://yourapp.com/verify-email");
     } catch (error) {
-      console.log("FUCKING ERROR WHILE REGISTERING (APP)" + error);
+      console.error("FUCKING ERROR WHILE REGISTERING (APP)" + error);
     }
   };
 
+  const createPublicCapsule = async (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published
+  ) => {
+    const payload = { userId, name, title, description, published };
+    try {
+      const res = await db.public.create(payload);
+      navigate("/publiccapsule");
+      return res;
+    } catch (error) {
+      console.error("FUCKING ERROR WHILE CREATING DATA LIST" + error);
+    }
+  };
+  const createPrivateCapsule = async (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published
+  ) => {
+    const payload = { userId, name, title, description, opening, published };
+    try {
+      const res = await db.private.create(payload);
+      navigate("/mycapsule");
+      return res;
+    } catch (error) {
+      console.error("ERROR WHILE CREATING PRIVATE CAPSULE" + error);
+    }
+  };
+
+  const listPublicCapsules = async () => {
+    try {
+      const res = db.public.list();
+      return res;
+    } catch (error) {
+      console.error("ERROE WHILE FETCHING PUBLIC DATA APP" + error);
+    }
+  };
+
+  const listPrivateCapsules = async (userId) => {
+    try {
+      const res = await db.private.list([Query.equal("userId", userId)]);
+      return res;
+    } catch (error) {
+      console.error("ERROR WHILE FETCHING DATA APP" + error);
+    }
+  };
+
+  const listRelesedCapsules = async (userId) => {};
   return (
     <UserProvider
       value={{
@@ -69,6 +124,11 @@ function App() {
         getUser,
         loginStatus,
         setLoginStatus,
+        createPrivateCapsule,
+        createPublicCapsule,
+        listPublicCapsules,
+        listPrivateCapsules,
+        listRelesedCapsules,
       }}
     >
       <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-4">

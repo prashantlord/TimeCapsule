@@ -13,6 +13,25 @@ export const userAccount = createContext({
   logoutUser: () => {},
   registerUser: (email, password) => {},
   getUser: () => {},
+  createPublicCapsule: (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published
+  ) => {},
+  createPrivateCapsule: (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published
+  ) => {},
+  listPublicCapsules: () => {},
+  listPrivateCapsules: (userId) => {},
+  listRelesedCapsule: () => {},
 });
 
 export default function useAccount() {

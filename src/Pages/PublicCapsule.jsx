@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import db from "../lib/database";
 import MyCapsule from "./MyCapsule";
 import { EarthIcon, Unlock } from "lucide-react";
-import CardOne from "../Components/Capsule/CardOne";
 
 export default function PublicCapsule() {
   const [publicCap, setPublicCap] = useState([]);
 
   const init = async () => {
     const res = await db.public.list();
-   
+
     setPublicCap(res.documents);
   };
 
@@ -35,7 +34,7 @@ export default function PublicCapsule() {
       <section className="flex  flex-col gap-5 bg-gray-100 px-5 py-10  w-full h-fit">
         <h1 className="mx-auto font-bold text-xl">Explore Public Captules</h1>
         <div className="flex flex-wrap gap-5 w-fit mx-auto">
-          {publicCap
+          {/* {publicCap
             ? publicCap.map((item, key) => {
                 return (
                   <CardOne
@@ -43,11 +42,11 @@ export default function PublicCapsule() {
                     name={item.name}
                     title={item.title}
                     description={item.description}
-                    opening={item.opening.split("T")[0]}
+                    opening={item.published.split("T")[0]}
                   />
                 );
               })
-            : null}
+            : null} */}
         </div>
       </section>
     </>

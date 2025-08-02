@@ -14,6 +14,11 @@ const collection = [
     id: import.meta.env.VITE_PRIVATE_COLLECTION_ID,
     name: "private",
   },
+  {
+    dbId: import.meta.env.VITE_DATABASE_ID,
+    id: import.meta.env.VITE_RELESED_COLLECTION_ID,
+    name: "relesed",
+  },
 ];
 
 collection.map((col) => {
