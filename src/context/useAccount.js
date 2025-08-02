@@ -1,14 +1,15 @@
 import { createContext, useContext } from "react";
+import { account } from "../lib/appwrite";
 
 export const userAccount = createContext({
-  account: [{ id: "prashantlord", password: "prash12345", status: false }],
-  loggedIn: "prashantlord",
-  setId: () => {},
-  setStatus: () => {},
-  setLoggedIn: () => {},
-  setLoggedOut: () => {},
-
-  
+  userAcc: {
+    id: "prashaant@gmail.com",
+    password: "prashant",
+  },
+  setUserAcc: () => {},
+  loginUser: (email, password) => {},
+  logoutUser: () => {},
+  registerUser: (email, password) => {},
 });
 
 export default function useAccount() {

@@ -13,7 +13,7 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { ty
     e.preventDefault();
     account.map((item) => {
       if (item.id === email && item.password === password) {

@@ -1,56 +1,84 @@
 import { Hourglass, LogOut, Menu, Settings, User } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAccount from "../context/useAccount";
+import { account } from "../lib/appwrite";
 
 export default function Header() {
-  const { account, setStatus, loggedIn, setLoggedOut } = useAccount();
+  // CONTEXT API
+  const { userAcc, logoutUser } = useAccount();
+
+  // REACT ROUTER IMPORTS
+  const navigate = useNavigate();
+  const location = useLocation();
   const pages = [
     {
       name: "Home",
       path: "/",
+      delay: "delay-200",
     },
     {
       name: "Create",
       path: "/create",
+      delay: "delay-400",
     },
 
     {
       name: "My Capsule",
       path: "/mycapsule",
+      delay: "delay-600",
     },
 
     {
       name: "Public Capsule",
       path: "/publiccapsule",
+      delay: "delay-800",
     },
   ];
-  const navigate = useNavigate();
-  const location = useLocation();
 
+  // USER STATES
   const [nav, setNav] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [logoutBar, setLogoutBar] = useState(false);
 
-  const [logout, setLogout] = useState(false);
-
+  // ACTION HANDLE FUNCTIONS
   const handleLogin = (e) => {
     e.preventDefault();
     location.pathname != "/login" ? navigate("/login") : navigate("/register");
   };
+
   const handleHamburger = (e) => {
     setNav((prev) => !prev);
   };
 
+  // GLOBAL MOUSE PRESS ACTION
   document.addEventListener("mousedown", () => {
-    setLogout(false);
+    setLogoutBar(false);
   });
+
+  const init = async () => {
+    try {
+      const res = await account.get();
+      setLoggedIn(res.status);
+    } catch (error) {
+      console.log("fuck");
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <>
       <div className="mx-auto flex items-center justify-between w-135 sm:w-200 md:w-250 xl:w-400 ">
+        {/* LOGO/TITLE/NAME */}
         <Link to="/" className="flex items-center font-semibold text-xl ">
           <Hourglass />
           <h1> TimeCapsule</h1>
         </Link>
 
+        {/* NAV LINKS */}
         <nav className="hidden gap-5 items-center md:flex  ">
           {pages.map((item, key) => (
             <Link
@@ -62,12 +90,13 @@ export default function Header() {
             </Link>
           ))}
 
+          {/* LOGIN/REGISTER/ACCOUNT buton */}
           {loggedIn ? (
             <button
               className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-800 transition-colors duration-300 "
-              onClick={() => setLogout((prev) => !prev)}
+              onClick={() => setLogoutBar(true)}
             >
-              {loggedIn[0].toUpperCase()}
+              P{/* User ID */}
             </button>
           ) : (
             <button
@@ -78,6 +107,8 @@ export default function Header() {
             </button>
           )}
         </nav>
+
+        {/* HAMBURGER button */}
         <button
           className={`md:hidden cursor-pointer hover:bg-gray-200 w-8 h-8 flex items-center justify-center rounded-full z-999 transition-transform duration-1000 ${
             nav ? "rotate-y-180 " : ""
@@ -88,9 +119,10 @@ export default function Header() {
         </button>
       </div>
 
+      {/* LOGOUT/ACCOUNT BAR  */}
       <div
         className={`fixed flex flex-col gap-3 w-35 bg-gray-200 p-5 top-18 right-0 xl:w-50 text-sm transition-all duration-500 ${
-          logout
+          logoutBar
             ? "opacity-100 translate-y-0"
             : "opacity-0  translate-y-[-0.5rem]"
         } `}
@@ -99,21 +131,21 @@ export default function Header() {
           <User />
           Account
         </button>
-        <button className="flex items-center gap-1" disabled>
-          <Settings /> Settings
-        </button>
+
         <button
           className="cursor-pointer flex gap-1 items-center"
           onClick={() => {
-            setLoggedOut();
-            setLogout(false);
+            logoutUser();
+            setLoggedIn(false);
+            setLogoutBar(false);
+            navigate("/login");
           }}
         >
           <LogOut /> Logout
         </button>
       </div>
 
-      {/*  */}
+      {/* MOBILE NAV */}
       <div
         className={`w-dvw h-dvh fixed z-50 top-0 left-0 transition-all duration-300 ease-in flex items-center
     ${
@@ -124,53 +156,23 @@ export default function Header() {
   `}
       >
         <div className="mx-auto flex flex-col items-center gap-10">
-          <Link
-            className={`font-medium text-xl transition-all  duration-500 ${
-              nav
-                ? "opacity-100 translate-y-0 delay-200"
-                : "opacity-0 translate-y-5 delay-0"
-            }`}
-            to="/"
-            onClick={handleHamburger}
-          >
-            Home
-          </Link>
-          <Link
-            className={`font-medium text-xl transition-all  duration-500 ${
-              nav
-                ? "opacity-100 translate-y-0 delay-400"
-                : "opacity-0 translate-y-5 delay-0"
-            }`}
-            to="/create"
-            onClick={handleHamburger}
-          >
-            {" "}
-            Create
-          </Link>
-          <Link
-            className={`font-medium text-xl transition-all  duration-500 ${
-              nav
-                ? "opacity-100 translate-y-0 delay-800"
-                : "opacity-0 translate-y-5 delay-0"
-            }`}
-            to="/mycapsule"
-            onClick={handleHamburger}
-          >
-            {" "}
-            My Capsule
-          </Link>
-          <Link
-            className={`font-medium text-xl transition-all  duration-500 ${
-              nav
-                ? "opacity-100 translate-y-0 delay-1000"
-                : "opacity-0 translate-y-5 delay-0"
-            }`}
-            to="/publiccapsule"
-            onClick={handleHamburger}
-          >
-            {" "}
-            Public Capsules
-          </Link>
+          {/* MOBILE NAV LINKS */}
+          {pages.map((item, key) => (
+            <Link
+              key={key}
+              to={item.path}
+              onClick={handleHamburger}
+              className={`font-medium text-xl transition-all  duration-500 ${
+                nav
+                  ? `opacity-100 translate-y-0 ${item.delay}`
+                  : "opacity-0 translate-y-5 delay-0"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {/* LOGIN/REGISTER/LOGOUT BUTTON */}
           {!loggedIn ? (
             <Link
               className={`font-medium text-xl transition-all  duration-500 ${
@@ -191,11 +193,12 @@ export default function Header() {
                   : "opacity-0 translate-y-5 delay-0"
               }`}
               onClick={() => {
-                setLoggedOut(loggedIn);
+                logoutUser();
                 handleHamburger();
+                navigate("/login");
               }}
             >
-              Logout{" "}
+              Logout
             </button>
           )}
         </div>
