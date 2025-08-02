@@ -35,6 +35,7 @@ function App() {
       const res = await account.get();
       if (res.status) setLoginStatus(true);
       else setLoginStatus(false);
+      setUserAcc({ id: res.$id, name: res.name });
       return res.status;
     } catch (error) {
       console.log("fuck While Getting USEr LOGIN info (HEADER)");
@@ -45,8 +46,13 @@ function App() {
     const id = ID.unique();
     try {
       await account.create(id, email, password, name);
+
       await loginUser(email, password);
+      await account.createVerification("https://yourapp.com/verify-email");
       navigate("/");
+
+      // SEND EMAIL TO THE USER {Future PLAN}
+      //  await account.createVerification("https://yourapp.com/verify-email");
     } catch (error) {
       console.log("FUCKING ERROR WHILE REGISTERING (APP)" + error);
     }

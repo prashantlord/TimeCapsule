@@ -92,7 +92,7 @@ export default function Header() {
               className="px-4 py-2 rounded-3xl bg-black text-white cursor-pointer  hover:bg-gray-800 transition-colors duration-300 "
               onClick={() => setLogoutBar(true)}
             >
-              P{/* User ID */}
+              {userAcc.name[0]}
             </button>
           ) : (
             <button
@@ -193,7 +193,8 @@ export default function Header() {
                 navigate("/login");
               }}
             >
-              Logout
+              Logout <br />
+              <small> ({userAcc.name}) </small>
             </button>
           )}
         </div>

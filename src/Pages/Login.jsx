@@ -2,6 +2,7 @@ import { CloudAlert, KeyRound, MailWarning } from "lucide-react";
 import useAccount from "../context/useAccount";
 import { Link, useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
+import LoginForm from "../Components/LoginRegister/LoginForm";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -41,63 +42,13 @@ export default function Login() {
             <h1 className="font-semibold text-2xl">Welcome Back</h1>
             <p className="text-gray-700">Signin to Access your Capsule</p>
           </div>
-          <form className="w-full flex flex-col mt-5 gap-3">
-            <div className="flex flex-col gap-2 mx-auto w-80">
-              <label htmlFor="email" className="text-gray-800">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-                className="outline-1 outline-gray-300 py-2 px-3 rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col gap-2 mx-auto w-80">
-              <label htmlFor="password" className="text-gray-800">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                required
-                className="outline-1 outline-gray-300 py-2 px-3 rounded-md"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2 mx-auto w-80">
-              <div className="flex gap-2">
-                <input type="checkbox" name="remember" id="remember" />
-                <label
-                  htmlFor="remember"
-                  name="remember"
-                  className="text-gray-700"
-                >
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="bg-gray-700 rounded-md py-2 px-3  text-white mx-auto w-80 cursor-pointer hover:bg-gray-800 transition-colors duration-300"
-              onClick={handleSubmit}
-            >
-              Login
-            </button>
-            <div className=" gap-2 mx-auto w-80 text-center ">
-              <p className="text-gray-700 select-none">
-                Don't have an account ?
-                <Link to="/register" className="font-semibold text-gray-800">
-                  {" "}
-                  Register
-                </Link>
-              </p>
-            </div>
-          </form>
+          <LoginForm
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </section>
 
