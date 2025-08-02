@@ -27,7 +27,8 @@ export default function Create() {
     setDate(dt.toISOString());
     setPublish(new Date().toISOString());
     if (loggedIn) {
-      console.log(loggedIn, title, description, publish, data);
+      
+      
       if (title === "" || description === "" || publish === "" || date === "") {
         return;
       } else {

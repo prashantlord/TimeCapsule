@@ -13,7 +13,6 @@ function App() {
   const loginUser = async (email, password) => {
     try {
       const res = await account.createEmailPasswordSession(email, password);
-      console.log(res);
       setLoginStatus(true);
       return true;
     } catch (error) {

@@ -9,7 +9,7 @@ export default function PublicCapsule() {
 
   const init = async () => {
     const res = await db.public.list();
-    console.log(res.documents);
+   
     setPublicCap(res.documents);
   };
 
