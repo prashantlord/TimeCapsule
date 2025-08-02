@@ -6,10 +6,13 @@ export const userAccount = createContext({
     id: "prashaant@gmail.com",
     password: "prashant",
   },
+  loginStatus: false,
+  setLoginStatus: () => {},
   setUserAcc: () => {},
   loginUser: (email, password) => {},
   logoutUser: () => {},
   registerUser: (email, password) => {},
+  getUser: () => {},
 });
 
 export default function useAccount() {

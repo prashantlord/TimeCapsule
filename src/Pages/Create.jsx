@@ -52,6 +52,7 @@ export default function Create() {
     return () => clearTimeout(time);
   }, [nav]);
 
+  
   const handleDraft = () => {};
 
   const init = async () => {

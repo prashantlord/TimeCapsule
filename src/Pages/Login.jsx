@@ -1,32 +1,38 @@
-import { KeyRound } from "lucide-react";
+import { CloudAlert, KeyRound, MailWarning } from "lucide-react";
 import useAccount from "../context/useAccount";
 import { Link, useNavigate } from "react-router";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Login() {
-  const { account, setStatus, loggedIn } = useAccount();
+  const navigate = useNavigate();
+  const { loginUser, loginStatus } = useAccount();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [accountErr, setAccountErr] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => { ty
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    account.map((item) => {
-      if (item.id === email && item.password === password) {
-        setStatus(email);
-        navigate("/");
-        setAccountErr(false);
-      }
+    if (email === "" && password === "") {
+      return;
+    }
+
+    const res = await loginUser(email, password);
+    if (res) {
+      setAccountErr(false);
+      navigate("/");
+    } else {
       setAccountErr(true);
-    });
+    }
   };
+  useEffect(() => {
+    if (loginStatus) navigate("/");
+  }, [loginStatus]);
 
   return (
     <>
+      {/* LOGIN FORM  */}
       <section className="w-full h-170 flex items-center bg-gray-100">
         <div className="mx-auto bg-white border-1 border-gray-300 rounded-xl w-100 px-2 py-10">
           <div className="text-center flex items-center flex-col gap-2">
@@ -94,11 +100,14 @@ export default function Login() {
           </form>
         </div>
       </section>
+
+      {/* ERROR MESSAGE */}
       <div
-        className={`fixed top-20 right-0 bg-red-500 text-white p-3 w-55 rounded-l-xl  ${
+        className={`flex  gap-2 fixed top-20 right-0 bg-red-500 text-white p-3 w-55 rounded-l-xl  ${
           accountErr ? "slideAnm" : "hidden"
         }`}
       >
+        <MailWarning size={25} />
         Check your Email or Password
       </div>
     </>

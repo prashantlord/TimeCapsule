@@ -11,7 +11,7 @@
 
 @keyframes slide {
   from {
-    right: -10rem;
+    right: -20rem;
   }
   to {
     right: 0;

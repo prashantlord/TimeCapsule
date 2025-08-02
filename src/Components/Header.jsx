@@ -6,10 +6,11 @@ import { account } from "../lib/appwrite";
 
 export default function Header() {
   // CONTEXT API
-  const { userAcc, logoutUser } = useAccount();
+  const { userAcc, logoutUser, getUser, loginStatus } = useAccount();
 
   // REACT ROUTER IMPORTS
   const navigate = useNavigate();
+
   const location = useLocation();
   const pages = [
     {
@@ -38,9 +39,8 @@ export default function Header() {
 
   // USER STATES
   const [nav, setNav] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
   const [logoutBar, setLogoutBar] = useState(false);
-
   // ACTION HANDLE FUNCTIONS
   const handleLogin = (e) => {
     e.preventDefault();
@@ -56,18 +56,14 @@ export default function Header() {
     setLogoutBar(false);
   });
 
+  // DATA BASE LOGIC
   const init = async () => {
-    try {
-      const res = await account.get();
-      setLoggedIn(res.status);
-    } catch (error) {
-      console.log("fuck");
-    }
+    setLoggedIn(await getUser());
   };
 
   useEffect(() => {
     init();
-  }, []);
+  }, [loginStatus]);
 
   return (
     <>
@@ -136,7 +132,6 @@ export default function Header() {
           className="cursor-pointer flex gap-1 items-center"
           onClick={() => {
             logoutUser();
-            setLoggedIn(false);
             setLogoutBar(false);
             navigate("/login");
           }}
@@ -175,7 +170,7 @@ export default function Header() {
           {/* LOGIN/REGISTER/LOGOUT BUTTON */}
           {!loggedIn ? (
             <Link
-              className={`font-medium text-xl transition-all  duration-500 ${
+              className={`font-medium text-xl transition-all  duration-500 cursor-pointer ${
                 nav
                   ? "opacity-100 translate-y-0 delay-1200"
                   : "opacity-0 translate-y-5 delay-0"
@@ -187,7 +182,7 @@ export default function Header() {
             </Link>
           ) : (
             <button
-              className={`font-medium text-xl transition-all  duration-500 ${
+              className={`font-medium text-xl transition-all  duration-500 cursor-pointer ${
                 nav
                   ? "opacity-100 translate-y-0 delay-1200"
                   : "opacity-0 translate-y-5 delay-0"
