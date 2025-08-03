@@ -5,24 +5,30 @@ import Filter from "../Components/MyCapsule/Filter";
 import CapsuleCard from "../Components/MyCapsule/CapsuleCard";
 import { ID } from "appwrite";
 import Status from "../Components/MyCapsule/Status";
-import { Outlet } from "react-router";
+import { Cross, CrossIcon } from "lucide-react";
 
 export default function MyCapsule() {
   // CONTEXT API
   const { listPrivateCapsules, getUser, userAcc, deletePrivateCapsule } =
     useAccount();
+
+  // DATA STATES
+  const [handleId, setHandleId] = useState("");
+  const [handelTitle, setHandleTitle] = useState("");
+  const [handleDesc, setHandleDesc] = useState("");
+  const [handleOpening, sethandleOpening] = useState("");
+  const [handlePublished, setHandlePublished] = useState("");
   // DATA STATE
   const [capsules, setCapsules] = useState([]);
   // FILTER STATE
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Locked");
   const [tempCap, setTempCap] = useState([]);
-
   const [total, setTotal] = useState();
   const [locked, setLocked] = useState();
   const [unlocked, setUnlocked] = useState();
 
   // UI STATUS
-  const [deleteStatus, setDeleteStatus] = useState();
+  const [openUi, setOpenUi] = useState(false);
   // DATA BASE FUNCTION
   const init = async () => {
     try {
@@ -46,9 +52,19 @@ export default function MyCapsule() {
         const res = await deletePrivateCapsule(id);
         window.location.reload();
       } catch (error) {
-        console.error(erro);
+        console.error(error);
       }
     }
+  };
+
+  // HANDLE CAPSULE OPEN DATABASE
+  const handleCapsuleOpen = (id, title, description, opening, published) => {
+    setHandleId(id);
+    setHandleTitle(title);
+    setHandleDesc(description);
+    sethandleOpening(opening);
+    setHandlePublished(published);
+    setOpenUi(true);
   };
 
   // HANDLE FILTER
@@ -99,6 +115,7 @@ export default function MyCapsule() {
             id={item.$id}
             key={ID.unique()}
             deleteThis={deleteThis}
+            handleCapsuleOpen={handleCapsuleOpen}
           />
         ))}
       </section>
@@ -111,6 +128,46 @@ export default function MyCapsule() {
           locked={locked}
         />
       </section>
+
+      <div
+        className={`fixed top-0 left-0 flex-col bg-white w-dvw h-dvh flex items-center justify-center ${
+          openUi ? "" : "hidden"
+        }`}
+      >
+        <div className="bg-gray-900 text-white px-10 w-[90%] sm:w-100 py-10 flex flex-col gap-5 rounded-xl">
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="font-light">
+                Title: <br />
+              </h1>
+              <h1 className="font-bold text-xl">{handelTitle}</h1>
+            </div>
+            <div>
+              <h1 className="font-light">
+                Message: <br />
+              </h1>
+              <h1
+                className="font-bold 
+              "
+              >
+                {handleDesc}
+              </h1>
+            </div>
+            <h1 className="font-medium text-sm">
+              Published Date: <br />
+              <span>{handlePublished}</span>
+            </h1>
+            <button
+              onClick={() => {
+                setOpenUi(false);
+              }}
+              className="outline-1 outline-gray-300 py-2 rounded-xl bg-gray-100 text-black font-bold hover:bg-gray-500 hover:text-white transition-colors duration-300 cursor-pointer "
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

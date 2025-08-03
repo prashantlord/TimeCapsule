@@ -1,6 +1,5 @@
 export default function Filter({ filter, setFilter, total, locked, unlocked }) {
   const filterOption = [
-    { id: "All", num: total },
     { id: "Locked", num: locked },
     { id: "Unlocked", num: unlocked },
   ];

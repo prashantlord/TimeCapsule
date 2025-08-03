@@ -49,7 +49,7 @@ export default function Create() {
       return;
     }
 
-    if (dt <= now) {
+    if (dt < now) {
       setErrorMessage("Please select a date and time that is in the future.");
       return;
     }
