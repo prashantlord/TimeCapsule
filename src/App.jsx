@@ -21,6 +21,7 @@ function App() {
       return false;
     }
   };
+
   const logoutUser = async () => {
     try {
       await account.deleteSession("current");
@@ -43,6 +44,7 @@ function App() {
       return false;
     }
   };
+
   const registerUser = async (email, password, name) => {
     const id = ID.unique();
     try {
@@ -76,6 +78,7 @@ function App() {
       console.error("FUCKING ERROR WHILE CREATING DATA LIST" + error);
     }
   };
+
   const createPrivateCapsule = async (
     userId,
     name,
@@ -112,6 +115,14 @@ function App() {
     }
   };
 
+  const deletePrivateCapsule = async (id) => {
+    try {
+      await db.private.delete(id);
+    } catch (error) {
+      console.error("ERROR WHILE DELETING DATA APP" + error);
+    }
+  };
+
   const listRelesedCapsules = async (userId) => {};
   return (
     <UserProvider
@@ -129,14 +140,17 @@ function App() {
         listPublicCapsules,
         listPrivateCapsules,
         listRelesedCapsules,
+        deletePrivateCapsule,
       }}
     >
       <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-4">
         <Header />
       </header>
-      <main className="w-full  flex justify-center flex-col   ">
+
+      <main className="w-full flex justify-center flex-col   ">
         <Outlet />
       </main>
+
       <footer className="bg-white border-t-1 flex flex-col items-center border-b-1 border-gray-300 px-3 py-3">
         <Footer />
       </footer>
