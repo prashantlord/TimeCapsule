@@ -1,10 +1,38 @@
+import { Delete, Edit, Trash, Trash2 } from "lucide-react";
 import React from "react";
 
-export default function CapsuleCard() {
-  return <div>
-    
+export default function CapsuleCard({
+  name = "Prashant",
+  title = "Future Me",
+  description = "I hope to become something else in the future.",
+  status = false,
+  opening = "2026-1-1",
+  published = "2025-8-3",
+  id = "1124",
+}) {
+  console.log(name, title, description, status, opening, published, id);
+  return (
+    <section className="flex flex-col  gap-3 px-5 w-full md:w-200 xl:w-300 mx-auto  ">
+      <div className="w-full outline-1 outline-gray-300  flex flex-col gap-3 rounded-xl overflow-hidden">
+        <div className="bg-black w-full h-25"></div>
 
-  </div>;
+        <div className="flex w-full justify-between px-2">
+          <h1 className="font-medium">{title}</h1>
+          <div className="flex gap-3">
+            <Edit size={20} className="text-gray-600 cursor-pointer" />
+            <Trash2 size={20} className="text-gray-600 cursor-pointer" />
+          </div>
+        </div>
+        <div className="w-full px-2">
+          <p>{status ? description : `${description}`}</p>
+        </div>
+
+        <button className="bg-gray-900 text-white py-2 m-2 rounded-xl cursor-pointer hover:bg-gray-800 transition-colors duration-300 ">
+          {status ? "Read" : `Unlocks in ${opening}`}
+        </button>
+      </div>
+    </section>
+  );
 }
 
 // FUTURE PLAN

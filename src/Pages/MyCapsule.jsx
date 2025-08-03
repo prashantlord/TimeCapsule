@@ -3,6 +3,7 @@ import useAccount from "../context/useAccount";
 import MyHero from "../Components/MyCapsule/MyHero";
 import Filter from "../Components/MyCapsule/Filter";
 import CapsuleCard from "../Components/MyCapsule/CapsuleCard";
+import { ID } from "appwrite";
 
 export default function MyCapsule() {
   // CONTEXT API
@@ -16,6 +17,7 @@ export default function MyCapsule() {
     try {
       const res = await listPrivateCapsules(userAcc.id);
       setCapsules(res.documents);
+
       console.log(res);
     } catch (error) {
       console.error(
@@ -34,7 +36,18 @@ export default function MyCapsule() {
       <section className="w-full flex items-center bg-gray-100 h-15">
         <Filter filter={filter} setFilter={setFilter} />
       </section>
-      <CapsuleCard />
+     
+        <CapsuleCard
+          // name={item.name}
+          // title={item.title}
+          // description={item.description}
+          // status={item.opened}
+          // opening={item.opening}
+          // published={item.published}
+          // id={item.$id}
+          key={ID.unique()}
+        />
+    
     </div>
   );
 }
