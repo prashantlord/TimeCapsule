@@ -9,8 +9,12 @@ import { Cross, CrossIcon } from "lucide-react";
 
 export default function MyCapsule() {
   // CONTEXT API
-  const { listPrivateCapsules, getUser, userAcc, deletePrivateCapsule } =
-    useAccount();
+  const {
+    listPrivateCapsules,
+    userAcc,
+    deletePrivateCapsule,
+    updatePrivateCapsule,
+  } = useAccount();
 
   // DATA STATES
   const [handleId, setHandleId] = useState("");
@@ -65,6 +69,13 @@ export default function MyCapsule() {
     sethandleOpening(opening);
     setHandlePublished(published);
     setOpenUi(true);
+
+    capsules.map((item) => {
+      if (item.$id === id) {
+        const payload = { opened: true };
+        updatePrivateCapsule(id, payload);
+      }
+    });
   };
 
   // HANDLE FILTER
@@ -74,16 +85,16 @@ export default function MyCapsule() {
         setTempCap([...capsules]);
         break;
       case "Unlocked":
-        setTempCap(capsules.filter((item) => item.status));
+        setTempCap(capsules.filter((item) => item.opened));
         break;
       case "Locked":
-        setTempCap(capsules.filter((item) => !item.status));
+        setTempCap(capsules.filter((item) => !item.opened));
         break;
     }
     setTotal(capsules.length);
-    const temp = capsules.filter((item) => item.status);
+    const temp = capsules.filter((item) => item.opened);
     setUnlocked(temp.length);
-    const temp1 = capsules.filter((item) => !item.status);
+    const temp1 = capsules.filter((item) => !item.opened);
     setLocked(temp1.length);
   };
   useEffect(() => {
@@ -118,6 +129,9 @@ export default function MyCapsule() {
             handleCapsuleOpen={handleCapsuleOpen}
           />
         ))}
+      </section>
+      <section className="flex flex-wrap justify-center gap-3 px-5 w-full md:w-200 xl:w-300 mx-auto  ">
+        PUBLIC CAPSULES
       </section>
 
       <section className="flex items-center w-full mt-10 ">

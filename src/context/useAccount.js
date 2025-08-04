@@ -31,9 +31,10 @@ export const userAccount = createContext({
   ) => {},
   listPublicCapsules: () => {},
   listPrivateCapsules: (userId) => {},
-  listRelesedCapsule: () => {},
+
   deletePrivateCapsule: (id) => {},
   editPrivateCapsule: (id, payload) => {},
+  updatePrivateCapsule: (id, payload) => {},
 });
 
 export default function useAccount() {

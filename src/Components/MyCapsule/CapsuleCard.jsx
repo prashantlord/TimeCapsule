@@ -1,15 +1,5 @@
-import {
-  Delete,
-  Edit,
-  Key,
-  Lock,
-  LockKeyhole,
-  LockOpen,
-  Soup,
-  Trash2,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import Status from "./Status";
+import { LockOpen, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function CapsuleCard({
   name = "Prashant",
@@ -31,9 +21,9 @@ export default function CapsuleCard({
     if (!iso) return "";
     const d = new Date(iso);
     return d.toLocaleDateString("en-US", {
-      month: "short", // "Jan"
-      day: "2-digit", // "01"
-      year: "numeric", // "2025"
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 

@@ -1,7 +1,7 @@
 import Header from "./Components/Header";
 import { Outlet, useNavigate } from "react-router";
 import { UserProvider } from "./context/useAccount";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "./Components/Footer";
 import { account } from "./lib/appwrite";
 import { ID, Query } from "appwrite";
@@ -123,7 +123,14 @@ function App() {
     }
   };
 
-  const listRelesedCapsules = async (userId) => {};
+  const updatePrivateCapsule = async (id, payload) => {
+    try {
+      await db.private.update(id, payload);
+    } catch (error) {
+      console.error("ERROR WHILE UPDATING DATABASE APP " + error);
+    }
+  };
+
   return (
     <UserProvider
       value={{
@@ -139,8 +146,9 @@ function App() {
         createPublicCapsule,
         listPublicCapsules,
         listPrivateCapsules,
-        listRelesedCapsules,
+
         deletePrivateCapsule,
+        updatePrivateCapsule,
       }}
     >
       <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-4">

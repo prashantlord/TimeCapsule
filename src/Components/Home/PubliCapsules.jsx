@@ -1,4 +1,4 @@
-import PublicCard from "../PublicCard";
+import PublicCard from "./PublicCard";
 import { Link } from "react-router";
 import { MoveRight } from "lucide-react";
 
