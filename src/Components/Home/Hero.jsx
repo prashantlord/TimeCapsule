@@ -10,8 +10,8 @@ export default function Hero({ publicCapsule, personalCapsule }) {
           Send A Message To Your Future
         </h1>
         <p className="text-center text-gray-700 text-sm">
-          Create time capsules with personal messages, photos, and goals that
-          will be delivered to you in the future .
+          Create time capsules with personal messages, and goals that will be
+          delivered to you in the future .
         </p>
         <div className="flex gap-3">
           <button

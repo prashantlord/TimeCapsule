@@ -6,6 +6,7 @@ import Status from "../Components/MyCapsule/Status";
 import LockedCap from "../Components/MyCapsule/LockedCap";
 import PublicCap from "../Components/MyCapsule/PublicCap";
 import { CrosshairIcon, CrossIcon, Edit2 } from "lucide-react";
+import UnlockedCap from "../Components/MyCapsule/UnlockedCap";
 export default function MyCapsule() {
   // CONTEXT API
   const {
@@ -153,11 +154,18 @@ export default function MyCapsule() {
         />
       </section>
       <section className="w-full px-5">
-        <LockedCap
-          capsules={capsules}
-          handleCapsuleOpen={handleCapsuleOpen}
-          removeCapsule={removeCapsule}
-        />
+        {filter === "Locked" ? (
+          <LockedCap
+            capsules={capsules}
+            handleCapsuleOpen={handleCapsuleOpen}
+            removeCapsule={removeCapsule}
+          />
+        ) : (
+          <UnlockedCap
+            capsules={capsules}
+            handleCapsuleOpen={handleCapsuleOpen}
+          />
+        )}
       </section>
       <section className="w-full px-5 mt-5">
         <PublicCap handleEdit={handleEdit} handleDelete={handleDelete} />
