@@ -29,12 +29,14 @@ export const userAccount = createContext({
     opening,
     published
   ) => {},
-  listPublicCapsules: () => {},
+  listPublicCapsules: (id) => {},
   listPrivateCapsules: (userId) => {},
 
+  deletePublicCapsule: (id) => {},
   deletePrivateCapsule: (id) => {},
-  editPrivateCapsule: (id, payload) => {},
+  updatePublicCapsule: (id, payload) => {},
   updatePrivateCapsule: (id, payload) => {},
+
 });
 
 export default function useAccount() {

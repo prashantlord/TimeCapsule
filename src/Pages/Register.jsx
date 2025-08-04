@@ -3,7 +3,7 @@ import useAccount from "../context/useAccount";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import RegisterForm from "../Components/LoginRegister/RegisterForm";
-import { ID } from "appwrite";
+
 
 export default function Register() {
   // Context API

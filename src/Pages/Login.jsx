@@ -1,7 +1,7 @@
 import { CloudAlert, KeyRound, MailWarning } from "lucide-react";
 import useAccount from "../context/useAccount";
 import { Link, useNavigate } from "react-router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import LoginForm from "../Components/LoginRegister/LoginForm";
 
 export default function Login() {
@@ -13,7 +13,7 @@ export default function Login() {
 
   const [accountErr, setAccountErr] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (email === "" && password === "") {
       return;
@@ -26,7 +26,7 @@ export default function Login() {
     } else {
       setAccountErr(true);
     }
-  };
+  });
   useEffect(() => {
     if (loginStatus) navigate("/");
   }, [loginStatus]);

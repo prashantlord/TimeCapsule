@@ -1,0 +1,50 @@
+import { Delete, Edit, Mail, MessageCircleCode, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+
+export default function PubCapsule({ data, handleDelete, handleEdit }) {
+  // CHANGE THE FORMAT OF DATE
+
+  const formatDate = (iso) => {
+    if (!iso) return "";
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const dt = useMemo(() => formatDate(data?.$createdAt), [data]);
+  return (
+    <div className="flex flex-col justify-center outline-1 outline-gray-300 shadow-md gap-5 px-5 py-1 w-80 sm:w-80 rounded-xl bg-gray-100 h-55">
+      <div className="w-full text-left flex justify-between">
+        <div>
+          <h1 className="font-semibold text-xl">{data.title}</h1>
+          <p className="flex items-center gap-1 text-[0.8rem] text-gray-600">
+            {" "}
+            <Mail size={18} /> {dt}
+          </p>
+        </div>
+        <div className="flex gap-2 items-end">
+          <Edit
+            className="cursor-pointer text-gray-600 hover:text-green-500 transition-colors duration-300"
+            title="Edit"
+            onClick={() => {
+              handleEdit(data?.$id, data?.title, data?.description);
+            }}
+          />
+          <Trash2
+            className="cursor-pointer text-gray-600 hover:text-red-500 transition-colors duration-300"
+            title="Delete"
+            onClick={() => {
+              handleDelete(data?.$id);
+            }}
+          />
+        </div>
+      </div>
+      <div className="w-full">
+        <p>{data?.description}</p>
+      </div>
+    </div>
+  );
+}

@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useAccount from "../context/useAccount";
 import MyHero from "../Components/MyCapsule/MyHero";
 import Filter from "../Components/MyCapsule/Filter";
-import CapsuleCard from "../Components/MyCapsule/CapsuleCard";
-import { ID } from "appwrite";
 import Status from "../Components/MyCapsule/Status";
-import { Cross, CrossIcon } from "lucide-react";
-
+import LockedCap from "../Components/MyCapsule/LockedCap";
+import PublicCap from "../Components/MyCapsule/PublicCap";
+import { CrosshairIcon, CrossIcon, Edit2 } from "lucide-react";
 export default function MyCapsule() {
   // CONTEXT API
   const {
     listPrivateCapsules,
     userAcc,
     deletePrivateCapsule,
+    deletePublicCapsule,
     updatePrivateCapsule,
+    updatePublicCapsule,
   } = useAccount();
 
   // DATA STATES
@@ -27,9 +28,16 @@ export default function MyCapsule() {
   // FILTER STATE
   const [filter, setFilter] = useState("Locked");
   const [tempCap, setTempCap] = useState([]);
-  const [total, setTotal] = useState();
-  const [locked, setLocked] = useState();
-  const [unlocked, setUnlocked] = useState();
+
+  const total = useMemo(() => capsules.length, [capsules]);
+  const unlocked = useMemo(
+    () => capsules.filter((c) => c.opened).length,
+    [capsules]
+  );
+  const locked = useMemo(
+    () => capsules.filter((c) => !c.opened).length,
+    [capsules]
+  );
 
   // UI STATUS
   const [openUi, setOpenUi] = useState(false);
@@ -49,7 +57,7 @@ export default function MyCapsule() {
   }, [userAcc]);
 
   // DATABASE DELETE FUNCTION
-  const deleteThis = async (id) => {
+  const removeCapsule = useCallback(async (id) => {
     const response = window.confirm("Do you realltt want to delete a capsule?");
     if (response) {
       try {
@@ -59,27 +67,62 @@ export default function MyCapsule() {
         console.error(error);
       }
     }
-  };
+  });
 
   // HANDLE CAPSULE OPEN DATABASE
-  const handleCapsuleOpen = (id, title, description, opening, published) => {
+  const handleCapsuleOpen = useCallback(
+    (id, title, description, opening, published) => {
+      setHandleId(id);
+      setHandleTitle(title);
+      setHandleDesc(description);
+      sethandleOpening(opening);
+      setHandlePublished(published);
+      setOpenUi(true);
+
+      capsules.map((item) => {
+        if (item.$id === id) {
+          const payload = { opened: true };
+          updatePrivateCapsule(id, payload);
+        }
+      });
+    }
+  );
+
+  // EDIT PUBLIC CAPSULE DATABASE
+  const [editPage, setEditPage] = useState(false);
+  const handleEdit = useCallback(async (id, title, description) => {
+    console.log(id, title, description);
     setHandleId(id);
     setHandleTitle(title);
     setHandleDesc(description);
-    sethandleOpening(opening);
-    setHandlePublished(published);
-    setOpenUi(true);
-
-    capsules.map((item) => {
-      if (item.$id === id) {
-        const payload = { opened: true };
-        updatePrivateCapsule(id, payload);
-      }
-    });
+    setEditPage(true);
+  });
+  const editFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(handelTitle, handleDesc, handleId);
+    const payload = { title: handelTitle, description: handleDesc };
+    try {
+      const res = await updatePublicCapsule(handleId, payload);
+      res ? window.location.reload() : null;
+    } catch (error) {
+      console.error(error);
+    }
   };
+  // DELETE PUBLIC CAPSULE DATABASE
+  const handleDelete = useCallback(async (id) => {
+    const response = window.confirm("DO YOU WANT TO DELETE A CAPSULE");
+    if (response) {
+      try {
+        await deletePublicCapsule(id);
+        window.location.reload();
+      } catch (error) {
+        console.error("ERROR WHILE HANDLING DELETE MYCAPSULE " + error);
+      }
+    } else return;
+  });
 
   // HANDLE FILTER
-  const handleFilter = async () => {
+  const handleFilter = useCallback(async () => {
     switch (filter) {
       case "All":
         setTempCap([...capsules]);
@@ -91,12 +134,7 @@ export default function MyCapsule() {
         setTempCap(capsules.filter((item) => !item.opened));
         break;
     }
-    setTotal(capsules.length);
-    const temp = capsules.filter((item) => item.opened);
-    setUnlocked(temp.length);
-    const temp1 = capsules.filter((item) => !item.opened);
-    setLocked(temp1.length);
-  };
+  });
   useEffect(() => {
     handleFilter();
   }, [filter, capsules]);
@@ -114,24 +152,15 @@ export default function MyCapsule() {
           locked={locked}
         />
       </section>
-      <section className="flex flex-wrap justify-center gap-3 px-5 w-full md:w-200 xl:w-300 mx-auto  ">
-        {tempCap.map((item, key) => (
-          <CapsuleCard
-            name={item.name}
-            title={item.title}
-            description={item.description}
-            status={item.opened}
-            opening={item.opening}
-            published={item.published}
-            id={item.$id}
-            key={ID.unique()}
-            deleteThis={deleteThis}
-            handleCapsuleOpen={handleCapsuleOpen}
-          />
-        ))}
+      <section className="w-full px-5">
+        <LockedCap
+          capsules={capsules}
+          handleCapsuleOpen={handleCapsuleOpen}
+          removeCapsule={removeCapsule}
+        />
       </section>
-      <section className="flex flex-wrap justify-center gap-3 px-5 w-full md:w-200 xl:w-300 mx-auto  ">
-        PUBLIC CAPSULES
+      <section className="w-full px-5 mt-5">
+        <PublicCap handleEdit={handleEdit} handleDelete={handleDelete} />
       </section>
 
       <section className="flex items-center w-full mt-10 ">
@@ -180,6 +209,78 @@ export default function MyCapsule() {
               Close
             </button>
           </div>
+        </div>
+      </div>
+
+      <div
+        className={`w-dvw h-dvh fixed z-50 top-0 left-0 transition-all duration-300 ease-in flex items-center ${
+          editPage
+            ? "opacity-100 bg-white/90 backdrop-blur-md pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={` mx-auto sm:w-100 md:w-120 transition-all duration-500 ease-in ${
+            editPage
+              ? "opacity-100 translate-y-0 delay-200"
+              : "translate-y-5 opacity-0 delay-0"
+          }`}
+        >
+          <div className="w-full px-5 flex justify-between ">
+            <h1 className="font-semibold text-xl">Edit Page</h1>
+            <CrossIcon
+              className="w-8 transition-all duration-300 rotate-45 cursor-pointer hover:text-red-500"
+              onClick={() => setEditPage(false)}
+            />
+          </div>
+          <form
+            className="w-full px-5 h-fit py-10 flex flex-col gap-5 "
+            onSubmit={editFormSubmit}
+          >
+            <div className="flex flex-col w-full gap-2">
+              <label
+                htmlFor="title"
+                className="text-gray-600 font-medium text-sm"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                maxLength={50}
+                className="border-gray-500 border-1 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+                value={handelTitle}
+                onChange={(e) => {
+                  setHandleTitle(e.target.value);
+                }}
+              />
+            </div>
+            <div className="flex flex-col w-full gap-2">
+              <label
+                htmlFor="title"
+                className="text-gray-600 font-medium text-sm"
+              >
+                Your Message
+              </label>
+              <textarea
+                type="text"
+                name="title"
+                maxLength={100}
+                minLength={1}
+                className="h-35 resize-none border-1  rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+                value={handleDesc}
+                onChange={(e) => {
+                  setHandleDesc(e.target.value);
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="flex items-center gap-2 justify-center bg-gray-900 font-semibold text-white py-2 rounded-xl hover:bg-green-900  transition-colors duration-300 cursor-pointer"
+            >
+              Edit <Edit2 size={15} />
+            </button>
+          </form>
         </div>
       </div>
     </div>
