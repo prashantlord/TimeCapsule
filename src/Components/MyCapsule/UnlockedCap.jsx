@@ -1,14 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import CapsuleCard from "./CapsuleCard";
 
-export default function UnlockedCap({
-  capsules,
-  handleCapsuleOpen,
-  removeCapsule,
-}) {
+export default function UnlockedCap({ capsules, handleCapsuleOpen }) {
   const unlockedCapsule = useMemo(
     () => capsules.filter((c) => c.opened),
-    [capsules]
+    [capsules],
   );
   const formatDate = (iso) => {
     if (!iso) return "";
@@ -21,14 +17,17 @@ export default function UnlockedCap({
   };
   return (
     <>
-      <div className="flex flex-col gap-3 px-2 w-full md:w-200 xl:w-300 mx-auto  ">
-        <h1 className="font-semibold text-xl mx-auto">Unlocked Capsules</h1>
-        <div className="flex flex-wrap w-full justify-center gap-2">
+      <div className="mx-auto flex w-full flex-col gap-3 px-2 md:w-200 xl:w-300">
+        <h1 className="mx-auto text-xl font-semibold">Unlocked Capsules</h1>
+        <div className="flex w-full flex-wrap justify-center gap-2">
           <h1 className="mb-5">
             {unlockedCapsule.length === 0 ? "No Capsule Opened Yet" : null}
           </h1>
           {unlockedCapsule.map((item, key) => (
-            <div className="flex gap-2 px-5 flex-col items-center justify-center bg-gray-900 text-white w-80 h-30 rounded-xl">
+            <div
+              className="flex h-30 w-80 flex-col items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 text-white"
+              key={key}
+            >
               <div>
                 <h1 className="font-medium">Title: {item.title}</h1>
                 <p className="text-[0.8rem]">
@@ -42,10 +41,10 @@ export default function UnlockedCap({
                     item.title,
                     item.description,
                     item.opening,
-                    formatDate(item.published)
+                    formatDate(item.published),
                   )
                 }
-                className="bg-gray-100 text-black w-full rounded-md py-2 cursor-pointer hover:bg-gray-300 transtion-colors duration-300 "
+                className="transtion-colors w-full cursor-pointer rounded-md bg-gray-100 py-2 text-black duration-300 hover:bg-gray-300"
               >
                 Re visit the Capsule
               </button>

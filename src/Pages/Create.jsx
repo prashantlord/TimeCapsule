@@ -1,8 +1,6 @@
 import { FilePlus2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import db from "../lib/database";
-import { data, useNavigate } from "react-router";
 import useAccount from "../context/useAccount";
 import CreateHero from "../Components/Create/CreateHero";
 import CapsuleType from "../Components/Create/CapsuleType";
@@ -12,7 +10,7 @@ export default function Create() {
   // CONTEXT API
   const { userAcc, createPrivateCapsule, createPublicCapsule } = useAccount();
   // REACT ROUTER
-  const navigate = useNavigate();
+
   // DATA STATE
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -22,8 +20,6 @@ export default function Create() {
   const [openingTime, setOpeningTime] = useState("");
 
   // DATE AND TIME STATE
-  const [publish, setPublish] = useState("");
-  const [opening, setOpening] = useState("");
 
   // CAPSULE TYPE STATE
   const [capsule, setCapsule] = useState("public");
@@ -63,10 +59,6 @@ export default function Create() {
     const openingISO = dt.toISOString();
     const publishISO = now.toISOString();
 
-    // update state (for UI)
-    setOpening(openingISO);
-    setPublish(publishISO);
-
     // proceed with creation
     if (capsule === "public") {
       try {
@@ -76,7 +68,7 @@ export default function Create() {
           title,
           description,
           openingISO,
-          publishISO
+          publishISO,
         );
       } catch (err) {
         setErrorMessage("Failed to create capsule. Please retry.");
@@ -90,7 +82,7 @@ export default function Create() {
           title,
           description,
           openingISO,
-          publishISO
+          publishISO,
         );
       } catch (err) {
         setErrorMessage("Failed to create capsule. Please retry.");
@@ -118,9 +110,9 @@ export default function Create() {
     <>
       <CreateHero />
 
-      <section className="flex flex-col mt-10 gap-10 px-5">
+      <section className="mt-10 flex flex-col gap-10 px-5">
         <CapsuleType capsule={capsule} setCapsule={setCapsule} />
-        <div className="mx-auto w-full h-fit flex flex-col items-center justify-center xl:flex-row gap-10 md:w-200 mb-20  ">
+        <div className="mx-auto mb-20 flex h-fit w-full flex-col items-center justify-center gap-10 md:w-200 xl:flex-row">
           <CapsuleForm
             capsule={capsule}
             title={title}
@@ -142,7 +134,7 @@ export default function Create() {
       </section>
 
       <div
-        className={`rounded-l-xl fixed top-20 bg-red-500 px-5 py-2 right-0 text-white transition-all duration-300 ease-in ${
+        className={`fixed top-20 right-0 rounded-l-xl bg-red-500 px-5 py-2 text-white transition-all duration-300 ease-in ${
           errorMessage ? "right-0" : "right-[-50rem]"
         }`}
       >

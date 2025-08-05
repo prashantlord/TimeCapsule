@@ -1,5 +1,5 @@
-import { Delete, Edit, Mail, MessageCircleCode, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Delete, Edit, Mail, Trash2 } from "lucide-react";
+import { useMemo } from "react";
 
 export default function PubCapsule({ data, handleDelete, handleEdit }) {
   // CHANGE THE FORMAT OF DATE
@@ -16,25 +16,25 @@ export default function PubCapsule({ data, handleDelete, handleEdit }) {
 
   const dt = useMemo(() => formatDate(data?.$createdAt), [data]);
   return (
-    <div className="flex flex-col justify-center outline-1 outline-gray-300 shadow-md gap-5 px-5 py-1 w-80 sm:w-80 rounded-xl bg-gray-100 h-55">
-      <div className="w-full text-left flex justify-between">
+    <div className="flex h-55 w-80 flex-col justify-center gap-5 rounded-xl bg-gray-100 px-5 py-1 shadow-md outline-1 outline-gray-300 sm:w-80">
+      <div className="flex w-full justify-between text-left">
         <div>
-          <h1 className="font-semibold text-xl">{data.title}</h1>
+          <h1 className="text-xl font-semibold">{data.title}</h1>
           <p className="flex items-center gap-1 text-[0.8rem] text-gray-600">
             {" "}
             <Mail size={18} /> {dt}
           </p>
         </div>
-        <div className="flex gap-2 items-end">
+        <div className="flex items-end gap-2">
           <Edit
-            className="cursor-pointer text-gray-600 hover:text-green-500 transition-colors duration-300"
+            className="cursor-pointer text-gray-600 transition-colors duration-300 hover:text-green-500"
             title="Edit"
             onClick={() => {
               handleEdit(data?.$id, data?.title, data?.description);
             }}
           />
           <Trash2
-            className="cursor-pointer text-gray-600 hover:text-red-500 transition-colors duration-300"
+            className="cursor-pointer text-gray-600 transition-colors duration-300 hover:text-red-500"
             title="Delete"
             onClick={() => {
               handleDelete(data?.$id);

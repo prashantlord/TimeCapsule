@@ -2,10 +2,8 @@ import { LockOpen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function CapsuleCard({
-  name = "Prashant",
   title = "Future Me",
   description = "I hope to become something else in the future.",
-  status = false,
   opening,
   published,
   id = "1124",
@@ -42,16 +40,16 @@ export default function CapsuleCard({
   }, [opening, published]);
 
   return (
-    <div className="w-full bg-gray-900 text-white sm:w-80  outline-1 outline-gray-300  flex flex-col gap-3 rounded-xl overflow-hidden">
-      <div className="mx-auto w-full  flex items-center flex-col gap-2  py-5">
+    <div className="flex w-full flex-col gap-3 overflow-hidden rounded-xl bg-gray-900 text-white outline-1 outline-gray-300 sm:w-80">
+      <div className="mx-auto flex w-full flex-col items-center gap-2 py-5">
         <div className="flex justify-between text-center font-semibold">
           <h1>Locked Capsule</h1>
         </div>
-        <div className="flex gap-2 w-full px-5">
+        <div className="flex w-full gap-2 px-5">
           {!timeOver ? (
             <button
               disabled
-              className="flex flex-col gap-2  bg-gray-500 w-full text-black px-2  py-2 rounded-xl"
+              className="flex w-full flex-col gap-2 rounded-xl bg-gray-500 px-2 py-2 text-black"
             >
               {" "}
               Locked Until {openingDt}
@@ -64,16 +62,16 @@ export default function CapsuleCard({
                   title,
                   description,
                   openingDt,
-                  publishedDt
+                  publishedDt,
                 )
               }
-              className="flex gap-2 justify-center bg-white w-full text-black px-2 py-2 rounded-xl hover:bg-gray-300 cursor-pointer  transition-colors duration-300"
+              className="flex w-full cursor-pointer justify-center gap-2 rounded-xl bg-white px-2 py-2 text-black transition-colors duration-300 hover:bg-gray-300"
             >
               <LockOpen /> Ready to Open
             </button>
           )}
           <button
-            className="bg-red-500 p-2 rounded-xl cursor-pointer hover:bg-red-600 transition-colors duration-300"
+            className="cursor-pointer rounded-xl bg-red-500 p-2 transition-colors duration-300 hover:bg-red-600"
             onClick={() => {
               deleteThis(id);
             }}

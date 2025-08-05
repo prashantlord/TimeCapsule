@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import RegisterForm from "../Components/LoginRegister/RegisterForm";
 
-
 export default function Register() {
   // Context API
   const { loginStatus, registerUser } = useAccount();
@@ -58,12 +57,12 @@ export default function Register() {
   }, [accountErr]);
   return (
     <>
-      <section className="w-full h-200 flex items-center bg-gray-100">
-        <div className="mx-auto bg-white border-1 border-gray-300 rounded-xl w-100 px-2 py-10">
-          <div className="text-center flex items-center flex-col gap-2">
-            <UserLock className="bg-gray-200 w-20 h-20 p-5 rounded-full " />
+      <section className="flex h-200 w-full items-center bg-gray-100">
+        <div className="mx-auto w-100 rounded-xl border-1 border-gray-300 bg-white px-2 py-10">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <UserLock className="h-20 w-20 rounded-full bg-gray-200 p-5" />
 
-            <h1 className="font-semibold text-2xl">Create Account</h1>
+            <h1 className="text-2xl font-semibold">Create Account</h1>
             <p className="text-gray-700">Start your journey with TimeCapsule</p>
           </div>
           <RegisterForm
@@ -83,8 +82,8 @@ export default function Register() {
       </section>
 
       <div
-        className={`rounded-l-xl fixed top-20 bg-red-500 px-5 py-2 right-0 text-white transition-all duration-300 ease-in-out  ${
-          accountErr ? "right-0" : "right-[-15rem] "
+        className={`fixed top-20 right-0 rounded-l-xl bg-red-500 px-5 py-2 text-white transition-all duration-300 ease-in-out ${
+          accountErr ? "right-0" : "right-[-15rem]"
         }`}
       >
         {accountErr}

@@ -1,7 +1,7 @@
 import Header from "./Components/Header";
 import { Outlet, useNavigate } from "react-router";
 import { UserProvider } from "./context/useAccount";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import Footer from "./Components/Footer";
 import { account } from "./lib/appwrite";
 import { ID, Query } from "appwrite";
@@ -11,28 +11,28 @@ function App() {
   const [userAcc, setUserAcc] = useState({});
   const [loginStatus, setLoginStatus] = useState(false);
 
-  const loginUser = useCallback(async (email, password) => {
+  const loginUser = async (email, password) => {
     try {
-      const res = await account.createEmailPasswordSession(email, password);
+      await account.createEmailPasswordSession(email, password);
       setLoginStatus(true);
       return true;
     } catch (error) {
-      console.error("ERROR while Logging In (APP)");
+      console.error("ERROR while Logging In (APP)" + error);
       return false;
     }
-  });
+  };
 
-  const logoutUser = useCallback(async () => {
+  const logoutUser = async () => {
     try {
       await account.deleteSession("current");
       setLoginStatus(false);
       navigate("/login");
     } catch (error) {
-      console.error("ERROR ERROR WHILE LOGGING OUT (APP)");
+      console.error("ERROR ERROR WHILE LOGGING OUT (APP)" + error);
     }
-  });
+  };
 
-  const getUser = useCallback(async () => {
+  const getUser = async () => {
     try {
       const res = await account.get();
       if (res.status) setLoginStatus(true);
@@ -40,12 +40,12 @@ function App() {
       setUserAcc({ id: res.$id, name: res.name });
       return res.status;
     } catch (error) {
-      console.error("ERROR While Getting USEr LOGIN info (HEADER)");
+      console.error("ERROR While Getting USEr LOGIN info (HEADER)" + error);
       return false;
     }
-  });
+  };
 
-  const registerUser = useCallback(async (email, password, name) => {
+  const registerUser = async (email, password, name) => {
     const id = ID.unique();
     try {
       await account.create(id, email, password, name);
@@ -59,35 +59,45 @@ function App() {
     } catch (error) {
       console.error("FUCKING ERROR WHILE REGISTERING (APP)" + error);
     }
-  });
+  };
 
-  const createPublicCapsule = useCallback(
-    async (userId, name, title, description, opening, published) => {
-      const payload = { userId, name, title, description, published };
-      try {
-        const res = await db.public.create(payload);
-        navigate("/publiccapsule");
-        return res;
-      } catch (error) {
-        console.error("FUCKING ERROR WHILE CREATING DATA LIST" + error);
-      }
+  const createPublicCapsule = async (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published,
+  ) => {
+    const payload = { userId, name, title, description, published };
+    try {
+      const res = await db.public.create(payload);
+      navigate("/publiccapsule");
+      return res;
+    } catch (error) {
+      console.error("FUCKING ERROR WHILE CREATING DATA LIST" + error);
     }
-  );
+  };
 
-  const createPrivateCapsule = useCallback(
-    async (userId, name, title, description, opening, published) => {
-      const payload = { userId, name, title, description, opening, published };
-      try {
-        const res = await db.private.create(payload);
-        navigate("/mycapsule");
-        return res;
-      } catch (error) {
-        console.error("ERROR WHILE CREATING PRIVATE CAPSULE" + error);
-      }
+  const createPrivateCapsule = async (
+    userId,
+    name,
+    title,
+    description,
+    opening,
+    published,
+  ) => {
+    const payload = { userId, name, title, description, opening, published };
+    try {
+      const res = await db.private.create(payload);
+      navigate("/mycapsule");
+      return res;
+    } catch (error) {
+      console.error("ERROR WHILE CREATING PRIVATE CAPSULE" + error);
     }
-  );
+  };
 
-  const listPublicCapsules = useCallback(async (id) => {
+  const listPublicCapsules = async (id) => {
     if (id) {
       try {
         const res = await db.public.list([Query.equal("userId", id)]);
@@ -105,40 +115,40 @@ function App() {
         return;
       }
     }
-  });
+  };
 
-  const listPrivateCapsules = useCallback(async (userId) => {
+  const listPrivateCapsules = async (userId) => {
     try {
       const res = await db.private.list([Query.equal("userId", userId)]);
       return res;
     } catch (error) {
       console.error("ERROR WHILE FETCHING DATA APP" + error);
     }
-  });
+  };
 
-  const deletePrivateCapsule = useCallback(async (id) => {
+  const deletePrivateCapsule = async (id) => {
     try {
       await db.private.delete(id);
     } catch (error) {
       console.error("ERROR WHILE DELETING DATA APP" + error);
     }
-  });
-  const deletePublicCapsule = useCallback(async (id) => {
+  };
+  const deletePublicCapsule = async (id) => {
     try {
       await db.public.delete(id);
     } catch (error) {
       console.error("ERROR WHILE DELETING DATA APP " + error);
     }
-  });
+  };
 
-  const updatePrivateCapsule = useCallback(async (id, payload) => {
+  const updatePrivateCapsule = async (id, payload) => {
     try {
       await db.private.update(id, payload);
     } catch (error) {
       console.error("ERROR WHILE UPDATING DATABASE APP " + error);
     }
-  });
-  const updatePublicCapsule = useCallback(async (id, payload) => {
+  };
+  const updatePublicCapsule = async (id, payload) => {
     try {
       await db.public.update(id, payload);
       return true;
@@ -146,7 +156,7 @@ function App() {
       console.error("ERROR WHILE UPDATING PUBLIC CAPSULE" + error);
       return false;
     }
-  });
+  };
 
   return (
     <UserProvider
@@ -170,15 +180,15 @@ function App() {
         updatePublicCapsule,
       }}
     >
-      <header className="bg-white flex items-center border-b-1 border-gray-300 px-4 py-4">
+      <header className="flex items-center border-b-1 border-gray-300 bg-white px-4 py-4">
         <Header />
       </header>
 
-      <main className="w-full flex justify-center flex-col   ">
+      <main className="flex w-full flex-col justify-center">
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t-1 flex flex-col items-center border-b-1 border-gray-300 px-3 py-3">
+      <footer className="flex flex-col items-center border-t-1 border-b-1 border-gray-300 bg-white px-3 py-3">
         <Footer />
       </footer>
     </UserProvider>

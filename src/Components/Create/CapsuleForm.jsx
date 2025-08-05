@@ -1,6 +1,3 @@
-import { Eye } from "lucide-react";
-import React from "react";
-
 export default function CapsuleForm({
   capsule,
   title,
@@ -18,17 +15,17 @@ export default function CapsuleForm({
 }) {
   return (
     <form
-      className="outline-1 outline-gray-200 shadow-md rounded-xl w-full px-7 py-5 flex flex-col gap-6 "
+      className="flex w-full flex-col gap-6 rounded-xl px-7 py-5 shadow-md outline-1 outline-gray-200"
       onSubmit={handleCreate}
     >
-      <div className="flex flex-col w-full gap-2">
-        <label htmlFor="title" className="text-gray-600 font-medium text-sm">
+      <div className="flex w-full flex-col gap-2">
+        <label htmlFor="title" className="text-sm font-medium text-gray-600">
           Capsule Title
         </label>
         <input
           type="text"
           name="title"
-          className="border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+          className="rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
           placeholder={
             capsule === "private"
               ? "Letter to my future self"
@@ -41,14 +38,14 @@ export default function CapsuleForm({
         />
       </div>
 
-      <div className="flex flex-col w-full gap-2">
-        <label htmlFor="title" className="text-gray-600 font-medium text-sm">
+      <div className="flex w-full flex-col gap-2">
+        <label htmlFor="title" className="text-sm font-medium text-gray-600">
           Your Message
         </label>
         <textarea
           type="text"
           name="title"
-          className="border-t-2 h-35 resize-none border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+          className="h-35 resize-none rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
           placeholder={
             capsule === "public"
               ? "Hello world from the future..."
@@ -62,28 +59,28 @@ export default function CapsuleForm({
       </div>
 
       <div className="flex w-full gap-4">
-        <div className="w-full flex flex-col gap-2">
-          <label htmlFor="title" className="text-gray-600 font-medium text-sm">
+        <div className="flex w-full flex-col gap-2">
+          <label htmlFor="title" className="text-sm font-medium text-gray-600">
             Unlock Date
           </label>
           <input
             type="date"
             name="title"
             title="Will not be seen in public capsule"
-            className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+            className="w-full rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
             onChange={(e) => {
               setOpeningDate(e.target.value);
             }}
           />
         </div>
-        <div className="w-full flex flex-col gap-2">
-          <label htmlFor="title" className="text-gray-600 font-medium text-sm">
+        <div className="flex w-full flex-col gap-2">
+          <label htmlFor="title" className="text-sm font-medium text-gray-600">
             Unlock Time
           </label>
           <input
             type="time"
             name="title"
-            className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+            className="w-full rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
             title="Will not be seen in public capsule"
             onChange={(e) => {
               setOpeningTime(e.target.value);
@@ -91,8 +88,8 @@ export default function CapsuleForm({
           />
         </div>
       </div>
-      <div className="flex flex-col w-full gap-2">
-        <label htmlFor="title" className="text-gray-600 font-medium text-sm">
+      <div className="flex w-full flex-col gap-2">
+        <label htmlFor="title" className="text-sm font-medium text-gray-600">
           Goals & Task (Optional)
         </label>
         <div className="flex gap-5">
@@ -107,7 +104,7 @@ export default function CapsuleForm({
           <input
             type="text"
             placeholder="Learning new skills"
-            className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+            className="w-full rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
             disabled={goalOne === false}
             onChange={(e) => {
               setGoalOne(e.target.value);
@@ -126,7 +123,7 @@ export default function CapsuleForm({
           <input
             type="text"
             placeholder={"Spending more time with Family"}
-            className="w-full border-t-2 border-l-2 border-r-2 border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-gray-400 transition-colors duration-300"
+            className="w-full rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
             disabled={goalTwo === false}
             onChange={(e) => {
               setGoalTwo(e.target.value);
@@ -136,14 +133,14 @@ export default function CapsuleForm({
       </div>
       <div className="flex flex-col gap-3 md:flex-row">
         <button
-          className="bg-gray-900 text-white py-3 rounded-xl w-full curosr-pointer cursor-pointer hover:bg-gray-800  transition-colors duration-300"
+          className="curosr-pointer w-full cursor-pointer rounded-xl bg-gray-900 py-3 text-white transition-colors duration-300 hover:bg-gray-800"
           type="submit"
         >
           Create {capsule === "public" ? "Public" : "Private"} Capsule
         </button>
         <button
           onClick={handleDraft}
-          className="border-t-2 border-l-2 border-r-2 border-gray-200 py-3 rounded-xl w-full md:w-60 cursor-pointer hover:bg-gray-200 transition-colors duration-300 hover:border-gray-400"
+          className="w-full cursor-pointer rounded-xl border-t-2 border-r-2 border-l-2 border-gray-200 py-3 transition-colors duration-300 hover:border-gray-400 hover:bg-gray-200 md:w-60"
         >
           Save as Draft
         </button>

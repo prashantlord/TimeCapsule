@@ -2,7 +2,7 @@ import { Hourglass, LogOut, Menu, Settings, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAccount from "../context/useAccount";
-import { account } from "../lib/appwrite";
+
 
 export default function Header() {
   // CONTEXT API
@@ -47,7 +47,7 @@ export default function Header() {
     location.pathname != "/login" ? navigate("/login") : navigate("/register");
   };
 
-  const handleHamburger = (e) => {
+  const handleHamburger = () => {
     setNav((prev) => !prev);
   };
 
