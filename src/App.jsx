@@ -141,6 +141,7 @@ function App() {
     }
   };
 
+  
   const updatePrivateCapsule = async (id, payload) => {
     try {
       await db.private.update(id, payload);

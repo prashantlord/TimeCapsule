@@ -25,6 +25,8 @@ export default function CapsuleForm({
         <input
           type="text"
           name="title"
+          maxLength={30}
+          minLength={1}
           className="rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
           placeholder={
             capsule === "private"
@@ -45,6 +47,8 @@ export default function CapsuleForm({
         <textarea
           type="text"
           name="title"
+          maxLength={50}
+          minLength={4}
           className="h-35 resize-none rounded-md border-t-2 border-r-2 border-l-2 border-gray-200 px-3 py-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none"
           placeholder={
             capsule === "public"
@@ -88,7 +92,7 @@ export default function CapsuleForm({
           />
         </div>
       </div>
-      <div className="flex w-full flex-col gap-2">
+      {/* <div className="flex w-full flex-col gap-2">
         <label htmlFor="title" className="text-sm font-medium text-gray-600">
           Goals & Task (Optional)
         </label>
@@ -130,7 +134,7 @@ export default function CapsuleForm({
             }}
           />
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-3 md:flex-row">
         <button
           className="curosr-pointer w-full cursor-pointer rounded-xl bg-gray-900 py-3 text-white transition-colors duration-300 hover:bg-gray-800"
@@ -138,12 +142,12 @@ export default function CapsuleForm({
         >
           Create {capsule === "public" ? "Public" : "Private"} Capsule
         </button>
-        <button
+        {/* <button
           onClick={handleDraft}
           className="w-full cursor-pointer rounded-xl border-t-2 border-r-2 border-l-2 border-gray-200 py-3 transition-colors duration-300 hover:border-gray-400 hover:bg-gray-200 md:w-60"
         >
           Save as Draft
-        </button>
+        </button> */}
       </div>
     </form>
   );

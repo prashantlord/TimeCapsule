@@ -23,6 +23,8 @@ export default function RegisterForm({
           <input
             type="text"
             placeholder="Enter your Name"
+            max={20}
+            min={1}
             required
             className="rounded-md px-3 py-2 outline-1 outline-gray-300"
             value={name}

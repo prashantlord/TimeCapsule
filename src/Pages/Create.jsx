@@ -5,7 +5,7 @@ import useAccount from "../context/useAccount";
 import CreateHero from "../Components/Create/CreateHero";
 import CapsuleType from "../Components/Create/CapsuleType";
 import CapsuleForm from "../Components/Create/CapsuleForm";
-
+import PreviewCap from "../Components/Create/PreviewCap";
 export default function Create() {
   // CONTEXT API
   const { userAcc, createPrivateCapsule, createPublicCapsule } = useAccount();
@@ -112,24 +112,34 @@ export default function Create() {
 
       <section className="mt-10 flex flex-col gap-10 px-5">
         <CapsuleType capsule={capsule} setCapsule={setCapsule} />
-        <div className="mx-auto mb-20 flex h-fit w-full flex-col items-center justify-center gap-10 md:w-200 xl:flex-row">
-          <CapsuleForm
-            capsule={capsule}
-            title={title}
-            setTitle={setTitle}
-            description={description}
-            setDescription={setDescription}
-            openingDate={openingDate}
-            setOpeningDate={setOpeningDate}
-            openingTime={openingTime}
-            setOpeningTime={setOpeningTime}
-            goalOne={goalOne}
-            setGoalOne={setGoalOne}
-            goalTwo={goalTwo}
-            setGoalTwo={setGoalTwo}
-            handleCreate={handleCreate}
-            handleDraft={handleDraft}
-          />
+        <div className="mx-auto flex w-full flex-col items-center justify-between gap-5 md:w-200 md:flex-row md:items-start">
+          <div className="flex h-fit w-full flex-col items-center justify-center gap-10 md:w-200 xl:flex-row">
+            <CapsuleForm
+              capsule={capsule}
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+              openingDate={openingDate}
+              setOpeningDate={setOpeningDate}
+              openingTime={openingTime}
+              setOpeningTime={setOpeningTime}
+              goalOne={goalOne}
+              setGoalOne={setGoalOne}
+              goalTwo={goalTwo}
+              setGoalTwo={setGoalTwo}
+              handleCreate={handleCreate}
+              handleDraft={handleDraft}
+            />
+          </div>
+          <div className="flex h-fit">
+            <PreviewCap
+              name={userAcc?.name}
+              published={Date.now()}
+              title={title}
+              description={description}
+            />
+          </div>
         </div>
       </section>
 
